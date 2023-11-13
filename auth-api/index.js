@@ -1,15 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const multer = require('multer'); // Add multer for handling file uploads
+const multer = require('multer'); 
 
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 require('dotenv').config();
 const User = require('./models/User');
-const Image = require('./models/Image'); // Import the Image model
+const Image = require('./models/Image');
 
-const { authenticate, authorize } = require('./middleware/auth'); // Adjust the path if needed
+const { authenticate, authorize } = require('./middleware/auth');
 
 
 
@@ -22,7 +22,7 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 const storage = multer.memoryStorage();
-const upload = multer({ limits: { fileSize: 50 * 1024 * 1024,    fieldSize: 10 * 1024 * 1024  // Limit for non-file field size
+const upload = multer({ limits: { fileSize: 50 * 1024 * 1024,    fieldSize: 10 * 1024 * 1024  
 },storage: storage });
 // Signup route
 app.post('/signup', async (req, res) => {
@@ -44,7 +44,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// Login route
+
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -99,7 +99,7 @@ app.put('/api/users/:id', authenticate, authorize(['admin']), async (req, res) =
 
 
 app.post('/upload', authenticate, upload.single('file'), async (req, res) => {
-  const { userId } = req.user; // Example: Get userId from authenticated user session/token
+  const { userId } = req.user; 
   if (!req.file) {
     return res.status(400).send('No file uploaded.');
   }
@@ -112,7 +112,7 @@ app.post('/upload', authenticate, upload.single('file'), async (req, res) => {
 
     await newImage.save();
 
-    // Send back minimal response
+
     res.status(201).json({ 
       message: 'Image uploaded successfully',
       imageId: newImage._id,
